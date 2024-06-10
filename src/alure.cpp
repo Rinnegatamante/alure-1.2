@@ -51,7 +51,7 @@ template<typename T>
 static inline void LoadALCProc(ALCdevice *dev, const char *name, T **ptr)
 { *ptr = reinterpret_cast<T*>(alcGetProcAddress(dev, name)); }
 
-
+#ifndef __vita__
 #ifdef HAVE_GCC_CONSTRUCTOR
 static void init_alure(void) __attribute__((constructor));
 static void deinit_alure(void) __attribute__((destructor));
@@ -97,6 +97,9 @@ static struct MyConstructorClass {
 #endif
 
 static void init_alure(void)
+#else
+void init_alure(void)
+#endif
 {
     InitializeCriticalSection(&cs_StreamPlay);
 
